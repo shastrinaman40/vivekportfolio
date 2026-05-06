@@ -294,3 +294,165 @@ footer p {
         margin-top: 1rem;
     }
 }
+
+nav a.active {
+    color: #ff6b6b;
+    font-weight: 700;
+}
+
+.section-hidden {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.section-hidden.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.back-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    border: none;
+    border-radius: 50px;
+    padding: 0.9rem 1rem;
+    background: #667eea;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 1200;
+}
+
+.back-to-top.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.project-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    z-index: 2000;
+}
+
+.project-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.project-modal-content {
+    background: white;
+    border-radius: 22px;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 1.8rem;
+}
+
+.project-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    background: #ff6b6b;
+    color: white;
+    font-size: 1.4rem;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.project-modal-content img,
+.project-modal-content video {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    margin-bottom: 1.25rem;
+    background: #000;
+}
+
+.project-modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.project-modal-content p {
+    color: #4b5563;
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 108px;
+    right: 24px;
+    border: none;
+    padding: 0.95rem 1.25rem;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.92);
+    color: #2c3e50;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
+    z-index: 1200;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 1);
+}
+
+.dark-theme body {
+    background: #0f172a;
+    color: #e2e8f0;
+}
+
+.dark-theme header {
+    background: rgba(15, 23, 42, 0.95);
+}
+
+.dark-theme #about,
+.dark-theme #portfolio,
+.dark-theme #contact {
+    background: rgba(15, 23, 42, 0.9);
+}
+
+.dark-theme .project {
+    background: #111827;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.dark-theme .project p,
+.dark-theme .skill h3,
+.dark-theme .skill li,
+.dark-theme section h2,
+.dark-theme #about p {
+    color: #e2e8f0;
+}
+
+.dark-theme .theme-toggle {
+    background: rgba(15, 23, 42, 0.95);
+    color: #f8fafc;
+}
+
+.dark-theme .back-to-top {
+    background: #2563eb;
+}
