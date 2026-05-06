@@ -7,6 +7,8 @@ const projects = Array.from(document.querySelectorAll('.project'));
 let lastScrollTop = 0;
 let backToTopButton;
 let themeToggleButton;
+let hamburgerButton;
+let navMenu;
 const headlinePhrases = [
     "Hello, I'm Vivek",
     "Crafting bold visual stories",
@@ -86,6 +88,34 @@ function createThemeToggle() {
     });
 
     document.body.appendChild(themeToggleButton);
+}
+
+function setupMobileMenu() {
+    hamburgerButton = document.querySelector('.hamburger');
+    navMenu = document.querySelector('.nav-menu');
+
+    if (hamburgerButton && navMenu) {
+        hamburgerButton.addEventListener('click', () => {
+            hamburgerButton.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking on a link
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburgerButton.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburgerButton.contains(e.target) && !navMenu.contains(e.target)) {
+                hamburgerButton.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    }
 }
 
 function createProjectModal() {
@@ -193,6 +223,7 @@ window.addEventListener('load', () => {
     createThemeToggle();
     setupProjectCards();
     setupSectionAnimations();
+    setupMobileMenu();
     updateActiveNav();
     handleHeaderScroll();
     cycleHeadlines();

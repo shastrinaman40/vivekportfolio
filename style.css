@@ -49,13 +49,30 @@ nav h1 {
     font-family: 'Playfair Display', serif;
 }
 
-nav ul {
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: #2c3e50;
+    margin: 3px 0;
+    transition: 0.3s;
+}
+
+.nav-menu {
     display: flex;
     list-style: none;
     gap: 2rem;
 }
 
-nav a {
+.nav-menu li a {
     text-decoration: none;
     color: #2c3e50;
     font-weight: 500;
@@ -64,7 +81,7 @@ nav a {
     font-size: 0.95rem;
 }
 
-nav a:hover {
+.nav-menu li a:hover {
     color: #667eea;
     transform: translateY(-2px);
 }
@@ -286,12 +303,53 @@ footer p {
         grid-template-columns: 1fr;
     }
 
-    nav .container {
-        flex-direction: column;
+    .hamburger {
+        display: flex;
     }
 
-    nav ul {
-        margin-top: 1rem;
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 250px;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.95);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        transition: right 0.3s ease;
+        z-index: 1000;
+        padding: 2rem;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    }
+
+    .nav-menu.active {
+        right: 0;
+    }
+
+    .nav-menu li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-menu li a {
+        display: block;
+        padding: 1rem;
+        font-size: 1.2rem;
+        color: #2c3e50;
+    }
+
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
     }
 }
 
@@ -453,6 +511,14 @@ nav a.active {
     color: #f8fafc;
 }
 
-.dark-theme .back-to-top {
-    background: #2563eb;
+.dark-theme .hamburger span {
+    background: #e2e8f0;
+}
+
+.dark-theme .nav-menu {
+    background: rgba(15, 23, 42, 0.95);
+}
+
+.dark-theme .nav-menu li a {
+    color: #e2e8f0;
 }
