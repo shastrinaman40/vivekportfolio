@@ -24,19 +24,23 @@ body {
     pointer-events: none;
     overflow: hidden;
     perspective: 1200px;
+    background: radial-gradient(circle at top left, rgba(255,255,255,0.08), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(255,255,255,0.06), transparent 25%);
 }
 
 .background-animation span {
     position: absolute;
     display: block;
-    width: 120px;
-    height: 120px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 24px;
-    box-shadow: 0 20px 80px rgba(255, 255, 255, 0.08);
-    animation: float 18s ease-in-out infinite;
+    width: 180px;
+    height: 180px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 28px;
+    box-shadow: 0 40px 120px rgba(255, 255, 255, 0.18);
+    animation: float 22s ease-in-out infinite;
     transform-style: preserve-3d;
+    mix-blend-mode: screen;
+    filter: blur(1px);
 }
 
 .background-animation span:nth-child(1)  { left: 8%;  top: 14%;  animation-delay: -1s;  transform: translateZ(50px); }
@@ -55,15 +59,23 @@ body {
 @keyframes float {
     0% {
         transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg);
-        opacity: 0.85;
+        opacity: 0.9;
+    }
+    25% {
+        transform: translate3d(-24px, -40px, 24px) rotateX(10deg) rotateY(18deg);
+        opacity: 0.7;
     }
     50% {
-        transform: translate3d(-18px, -90px, 24px) rotateX(22deg) rotateY(20deg);
-        opacity: 0.5;
+        transform: translate3d(-18px, -90px, 34px) rotateX(22deg) rotateY(20deg);
+        opacity: 0.55;
+    }
+    75% {
+        transform: translate3d(12px, 60px, -18px) rotateX(8deg) rotateY(30deg);
+        opacity: 0.75;
     }
     100% {
         transform: translate3d(14px, 76px, -12px) rotateX(0deg) rotateY(45deg);
-        opacity: 0.85;
+        opacity: 0.9;
     }
 }
 
@@ -296,10 +308,27 @@ section h2::after {
 
 .project img, .project video {
     width: 100%;
-    max-height: 400px;
+    max-height: 420px;
+    min-height: 260px;
     height: auto;
     object-fit: contain;
     background: #000;
+}
+
+.project .video-fallback {
+    padding: 0 1rem 1rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #555;
+}
+
+.project .video-fallback a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+.project .video-fallback a:hover {
+    text-decoration: underline;
 }
 
 .project h3 {
