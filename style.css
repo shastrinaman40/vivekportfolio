@@ -14,6 +14,57 @@ body {
     color: #2c3e50;
     background: linear-gradient(135deg, #667eea, #764ba2);
     min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.background-animation {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    perspective: 1200px;
+}
+
+.background-animation span {
+    position: absolute;
+    display: block;
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 24px;
+    box-shadow: 0 20px 80px rgba(255, 255, 255, 0.08);
+    animation: float 18s ease-in-out infinite;
+    transform-style: preserve-3d;
+}
+
+.background-animation span:nth-child(1)  { left: 8%;  top: 14%;  animation-delay: -1s;  transform: translateZ(50px); }
+.background-animation span:nth-child(2)  { left: 72%; top: 6%;   animation-delay: -3s;  transform: translateZ(140px); }
+.background-animation span:nth-child(3)  { left: 20%; top: 70%;  animation-delay: -5s;  transform: translateZ(90px); }
+.background-animation span:nth-child(4)  { left: 85%; top: 42%;  animation-delay: -7s;  transform: translateZ(60px); }
+.background-animation span:nth-child(5)  { left: 55%; top: 20%;  animation-delay: -9s;  transform: translateZ(120px); }
+.background-animation span:nth-child(6)  { left: 12%; top: 50%;  animation-delay: -11s; transform: translateZ(180px); }
+.background-animation span:nth-child(7)  { left: 40%; top: 88%;  animation-delay: -13s; transform: translateZ(40px); }
+.background-animation span:nth-child(8)  { left: 90%; top: 74%;  animation-delay: -15s; transform: translateZ(130px); }
+.background-animation span:nth-child(9)  { left: 28%; top: 28%;  animation-delay: -2s;  transform: translateZ(100px); }
+.background-animation span:nth-child(10) { left: 62%; top: 56%;  animation-delay: -4s;  transform: translateZ(80px); }
+.background-animation span:nth-child(11) { left: 46%; top: 10%;  animation-delay: -6s;  transform: translateZ(160px); }
+.background-animation span:nth-child(12) { left: 75%; top: 88%;  animation-delay: -8s;  transform: translateZ(30px); }
+
+@keyframes float {
+    0% {
+        transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg);
+        opacity: 0.85;
+    }
+    50% {
+        transform: translate3d(-18px, -90px, 24px) rotateX(22deg) rotateY(20deg);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translate3d(14px, 76px, -12px) rotateX(0deg) rotateY(45deg);
+        opacity: 0.85;
+    }
 }
 
 .container {
@@ -24,7 +75,7 @@ body {
 
 
 header {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 170, 170, 0.95);
     position: fixed;
     width: 100%;
     top: 0;
@@ -39,7 +90,7 @@ nav .container {
 }
 
 nav h1 {
-    color: white;
+    color: rgba(241, 93, 93, 0.666);
     font-weight: 800;
     font-size: 1.8rem;
     background: url("https://cdn.corenexis.com/files/c/3929749720.jpg") center/cover no-repeat;
