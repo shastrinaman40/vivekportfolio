@@ -183,7 +183,7 @@ nav h1 {
 
 .nav-menu li a {
     text-decoration: none;
-    color: #f5f7ff;
+    color: var(--text-primary);
     font-weight: 600;
     transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
     text-transform: uppercase;
@@ -191,9 +191,9 @@ nav h1 {
 }
 
 .nav-menu li a:hover {
-    color: #9ccfff;
+    color: var(--accent);
     transform: translateY(-2px);
-    text-shadow: 0 0 10px rgba(156, 207, 255, 0.35);
+    text-shadow: 0 0 12px rgba(77, 139, 255, 0.35);
 }
 
 /* Hero */
@@ -435,7 +435,7 @@ section h2 {
     text-align: center;
     margin-bottom: 3rem;
     font-size: 3rem;
-    color: #f5f7ff;
+    color: var(--text-primary);
     font-weight: 700;
     font-family: 'Playfair Display', serif;
 }
@@ -590,14 +590,14 @@ section h2::after {
     display: block;
     padding: 1rem 1rem 0.4rem;
     font-size: 1.25rem;
-    color: #f4f7ff;
+    color: var(--text-primary);
     font-weight: 700;
     letter-spacing: 0.02em;
 }
 
 .project p {
     padding: 0 1rem 1.4rem;
-    color: #d8dff8;
+    color: var(--text-secondary);
     line-height: 1.75;
 }
 
@@ -605,11 +605,11 @@ section h2::after {
     padding: 0 1rem 1rem;
     font-size: 0.95rem;
     line-height: 1.5;
-    color: #a8b8ff;
+    color: var(--text-secondary);
 }
 
 .project .video-fallback a {
-    color: #b9ceff;
+    color: var(--accent);
 }
 
 /* Contact */
@@ -634,17 +634,17 @@ section h2::after {
 
 /* Footer */
 footer {
-    background: rgba(10, 16, 32, 0.96);
-    color: #cbd6f1;
+    background: var(--surface-strong);
+    color: var(--text-secondary);
     text-align: center;
     padding: 2rem 0;
-    border-top: 1px solid rgba(255,255,255,0.08);
+    border-top: 1px solid var(--panel-border);
     backdrop-filter: blur(18px);
 }
 
 footer p {
     font-size: 0.95rem;
-    color: #9fb4df;
+    color: var(--text-secondary);
 }
 
 /* Mobile */
