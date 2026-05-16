@@ -12,19 +12,30 @@ body {
     font-family: 'Poppins', sans-serif;
     line-height: 1.6;
     color: #f4f7ff;
-    background: radial-gradient(circle at top left, #2d3b75, #12162b 35%, #0d1221 100%);
     min-height: 100vh;
     overflow-x: hidden;
+    background: none;
 }
 
 #background-canvas {
     position: fixed;
     inset: 0;
-    z-index: -1;
+    z-index: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
-    opacity: 0.98;
+    opacity: 1;
+}
+
+header,
+section,
+footer,
+.project,
+.project-modal,
+.btn,
+.container {
+    position: relative;
+    z-index: 1;
 }
 
 .container {
