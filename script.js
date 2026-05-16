@@ -18,7 +18,8 @@ let headlineIndex = 0;
 let isTyping = false;
 
 const canvas = document.getElementById('background-canvas');
-let ctx, cw, ch, dpr, particles = [], mouse = { x: 0, y: 0 }, scrollRatio = 0;
+let ctx, cw, ch, dpr, entities = [], mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 }, scrollRatio = 0;
+const iconTypes = ['play', 'film', 'wave', 'slider', 'reel'];
 
 function resizeBackgroundCanvas() {
     if (!canvas) return;
@@ -33,24 +34,26 @@ function resizeBackgroundCanvas() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
-function createParticle() {
-    const size = 3 + Math.random() * 16;
+function createEntity() {
+    const size = 14 + Math.random() * 28;
     return {
         x: Math.random() * cw,
         y: Math.random() * ch,
-        vx: (Math.random() - 0.5) * 0.6,
-        vy: (Math.random() - 0.5) * 0.4,
+        vx: (Math.random() - 0.5) * 0.9,
+        vy: (Math.random() - 0.5) * 0.6,
         size,
-        alpha: 0.08 + Math.random() * 0.18,
-        speed: 0.05 + Math.random() * 0.2,
-        shift: Math.random() * Math.PI * 2
+        alpha: 0.18 + Math.random() * 0.22,
+        phase: Math.random() * Math.PI * 2,
+        rotation: Math.random() * Math.PI * 2,
+        type: iconTypes[Math.floor(Math.random() * iconTypes.length)],
+        drift: 0.03 + Math.random() * 0.14
     };
 }
 
 function initBackgroundAnimation() {
     if (!canvas) return;
     resizeBackgroundCanvas();
-    particles = Array.from({ length: 90 }, () => createParticle());
+    entities = Array.from({ length: 95 }, createEntity);
     window.requestAnimationFrame(animateBackground);
 }
 
@@ -66,11 +69,92 @@ function updateScrollRatio() {
 
 function drawBackground() {
     const gradient = ctx.createLinearGradient(0, 0, cw, ch);
-    gradient.addColorStop(0, 'rgba(38, 52, 113, 0.55)');
-    gradient.addColorStop(0.6, 'rgba(8, 15, 34, 0.95)');
-    gradient.addColorStop(1, 'rgba(5, 9, 18, 1)');
+    gradient.addColorStop(0, 'rgba(26, 42, 96, 0.95)');
+    gradient.addColorStop(0.5, 'rgba(10, 16, 34, 0.95)');
+    gradient.addColorStop(1, 'rgba(4, 8, 16, 1)');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, cw, ch);
+    const lineCount = 5;
+    ctx.save();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    for (let i = 1; i <= lineCount; i++) {
+        const y = (ch / (lineCount + 1)) * i;
+        ctx.beginPath();
+        ctx.moveTo(0, y + Math.sin(scrollRatio * Math.PI * 3 + i) * 8);
+        ctx.lineTo(cw, y + Math.sin(scrollRatio * Math.PI * 3 + i + 1) * 8);
+        ctx.stroke();
+    }
+    ctx.restore();
+}
+
+function drawEntity(entity) {
+    const hue = 195 + scrollRatio * 40 + Math.sin(entity.phase) * 12;
+    const stroke = `hsla(${hue}, 85%, 76%, ${entity.alpha})`;
+    const fill = `hsla(${hue}, 75%, 54%, ${Math.max(0.14, entity.alpha - 0.05)})`;
+    ctx.save();
+    ctx.translate(entity.x, entity.y);
+    ctx.rotate(entity.rotation + Math.sin(entity.phase + scrollRatio * Math.PI) * 0.18);
+    ctx.lineWidth = Math.max(1, entity.size * 0.1);
+    ctx.strokeStyle = stroke;
+    ctx.fillStyle = fill;
+
+    switch (entity.type) {
+        case 'play':
+            ctx.beginPath();
+            ctx.moveTo(-entity.size * 0.3, -entity.size * 0.45);
+            ctx.lineTo(entity.size * 0.5, 0);
+            ctx.lineTo(-entity.size * 0.3, entity.size * 0.45);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            break;
+        case 'film':
+            ctx.beginPath();
+            ctx.rect(-entity.size * 0.45, -entity.size * 0.28, entity.size * 0.9, entity.size * 0.56);
+            ctx.fill();
+            ctx.stroke();
+            for (let i = -2; i <= 2; i++) {
+                ctx.beginPath();
+                ctx.arc(-entity.size * 0.32 + i * (entity.size * 0.16), 0, entity.size * 0.06, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255,255,255,0.18)';
+                ctx.fill();
+            }
+            break;
+        case 'wave':
+            const bars = 5;
+            for (let i = 0; i < bars; i++) {
+                const barHeight = entity.size * 0.12 + Math.sin(entity.phase + i * 0.7 + scrollRatio * Math.PI * 3) * entity.size * 0.22;
+                const x = -entity.size * 0.35 + i * (entity.size * 0.17);
+                ctx.beginPath();
+                ctx.rect(x, -barHeight / 2, entity.size * 0.12, barHeight);
+                ctx.fill();
+            }
+            break;
+        case 'slider':
+            ctx.beginPath();
+            ctx.moveTo(-entity.size * 0.45, 0);
+            ctx.lineTo(entity.size * 0.45, 0);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(entity.size * (Math.sin(entity.phase) * 0.22), 0, entity.size * 0.18, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            break;
+        case 'reel':
+            ctx.beginPath();
+            ctx.arc(0, 0, entity.size * 0.32, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            for (let i = 0; i < 3; i++) {
+                ctx.beginPath();
+                ctx.arc(Math.cos(i * Math.PI * 2 / 3) * entity.size * 0.17, Math.sin(i * Math.PI * 2 / 3) * entity.size * 0.17, entity.size * 0.08, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255,255,255,0.2)';
+                ctx.fill();
+            }
+            break;
+    }
+    ctx.restore();
 }
 
 function animateBackground() {
@@ -78,39 +162,34 @@ function animateBackground() {
     ctx.clearRect(0, 0, cw, ch);
     drawBackground();
 
-    const centerX = cw * 0.5;
-    const centerY = ch * 0.5;
-    const targetX = mouse.x || centerX;
-    const targetY = mouse.y || centerY;
+    const targetX = mouse.x || cw * 0.5;
+    const targetY = mouse.y || ch * 0.5;
 
-    particles.forEach(particle => {
-        const dx = (targetX - particle.x) * 0.0006;
-        const dy = (targetY - particle.y) * 0.0006;
-        particle.vx += dx;
-        particle.vy += dy;
-        particle.x += particle.vx + Math.sin(particle.shift + scrollRatio * Math.PI * 2) * 0.35;
-        particle.y += particle.vy + Math.cos(particle.shift + scrollRatio * Math.PI * 2) * 0.32;
-        particle.vx *= 0.96;
-        particle.vy *= 0.96;
+    entities.forEach(entity => {
+        const attraction = 0.0006 + scrollRatio * 0.0008;
+        const dx = (targetX - entity.x) * attraction;
+        const dy = (targetY - entity.y) * attraction;
+        entity.vx += dx * entity.drift;
+        entity.vy += dy * entity.drift;
+        entity.x += entity.vx + Math.cos(entity.phase + scrollRatio * Math.PI * 2) * 0.4;
+        entity.y += entity.vy + Math.sin(entity.phase + scrollRatio * Math.PI * 2) * 0.34;
+        entity.vx *= 0.94;
+        entity.vy *= 0.94;
+        entity.phase += 0.02;
 
-        if (particle.x < -40) particle.x = cw + 40;
-        if (particle.x > cw + 40) particle.x = -40;
-        if (particle.y < -40) particle.y = ch + 40;
-        if (particle.y > ch + 40) particle.y = -40;
+        if (entity.x < -entity.size) entity.x = cw + entity.size;
+        if (entity.x > cw + entity.size) entity.x = -entity.size;
+        if (entity.y < -entity.size) entity.y = ch + entity.size;
+        if (entity.y > ch + entity.size) entity.y = -entity.size;
 
-        const radius = particle.size + Math.sin(particle.shift + scrollRatio * Math.PI * 4) * 2;
-        ctx.beginPath();
-        const alpha = Math.min(1, Math.max(0.1, particle.alpha + (scrollRatio - 0.5) * 0.2));
-        ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-        ctx.arc(particle.x, particle.y, radius, 0, Math.PI * 2);
-        ctx.fill();
+        drawEntity(entity);
     });
     window.requestAnimationFrame(animateBackground);
 }
 
 window.addEventListener('resize', () => {
     resizeBackgroundCanvas();
-    particles = Array.from({ length: 90 }, () => createParticle());
+    entities = Array.from({ length: 95 }, createEntity);
 });
 window.addEventListener('mousemove', updateMousePosition);
 window.addEventListener('scroll', updateScrollRatio);
