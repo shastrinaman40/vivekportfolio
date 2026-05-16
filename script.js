@@ -68,16 +68,23 @@ function updateScrollRatio() {
 }
 
 function drawBackground() {
+    const isDark = document.body.classList.contains('dark-theme');
     const gradient = ctx.createLinearGradient(0, 0, cw, ch);
-    gradient.addColorStop(0, 'rgba(26, 42, 96, 0.95)');
-    gradient.addColorStop(0.5, 'rgba(10, 16, 34, 0.95)');
-    gradient.addColorStop(1, 'rgba(4, 8, 16, 1)');
+    if (isDark) {
+        gradient.addColorStop(0, 'rgba(26, 42, 96, 0.95)');
+        gradient.addColorStop(0.5, 'rgba(10, 16, 34, 0.95)');
+        gradient.addColorStop(1, 'rgba(4, 8, 16, 1)');
+    } else {
+        gradient.addColorStop(0, 'rgba(240, 248, 255, 0.95)');
+        gradient.addColorStop(0.5, 'rgba(221, 231, 247, 0.95)');
+        gradient.addColorStop(1, 'rgba(196, 209, 238, 1)');
+    }
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, cw, ch);
     const lineCount = 5;
     ctx.save();
     ctx.lineWidth = 1;
-    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(63, 103, 173, 0.12)';
     for (let i = 1; i <= lineCount; i++) {
         const y = (ch / (lineCount + 1)) * i;
         ctx.beginPath();
@@ -265,7 +272,12 @@ function createThemeToggle() {
         localStorage.setItem('portfolio-theme', isDark ? 'dark' : 'light');
     });
 
-    document.body.appendChild(themeToggleButton);
+    const navContainer = document.querySelector('nav .container');
+    if (navContainer) {
+        navContainer.appendChild(themeToggleButton);
+    } else {
+        document.body.appendChild(themeToggleButton);
+    }
 }
 
 function setupMobileMenu() {
