@@ -46,11 +46,13 @@ footer,
 
 
 header {
-    background: rgba(255, 170, 170, 0.95);
+    background: rgba(8, 12, 26, 0.8);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     position: fixed;
     width: 100%;
     top: 0;
-    z-index: 1000;
+    z-index: 1100;
 }
 
 nav .container {
@@ -96,27 +98,29 @@ nav h1 {
 
 .nav-menu li a {
     text-decoration: none;
-    color: #2c3e50;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    color: #f5f7ff;
+    font-weight: 600;
+    transition: color 0.3s ease, transform 0.3s ease;
     text-transform: uppercase;
     font-size: 0.95rem;
 }
 
 .nav-menu li a:hover {
-    color: #667eea;
+    color: #8ab7ff;
     transform: translateY(-2px);
 }
 
 /* Hero */
 #hero {
-    background: linear-gradient(135deg, #f093fb, #f5576c);
+    background: rgba(6, 12, 32, 0.72);
     color: white;
-    padding: 200px 0 100px;
+    padding: 220px 0 120px;
     text-align: center;
     min-height: 100vh;
     display: flex;
     align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(18px);
 }
 
 #hero h2 {
@@ -124,6 +128,7 @@ nav h1 {
     margin-bottom: 1.5rem;
     font-weight: 800;
     font-family: 'Playfair Display', serif;
+    color: #f8fbff;
 }
 
 #hero p {
@@ -132,22 +137,48 @@ nav h1 {
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    color: rgba(245, 247, 255, 0.88);
 }
 
 .btn {
-    display: inline-block;
-    background: linear-gradient(45deg, #ff6b6b, #ffa500);
-    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #fff;
     padding: 1rem 2rem;
     text-decoration: none;
-    border-radius: 50px;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    border-radius: 999px;
+    font-weight: 700;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.14);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
 }
 
 .btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 24px 72px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.28);
+}
+
+.btn.transparent {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.32);
+}
+
+.btn.blur {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.glass-panel {
+    background: rgba(10, 14, 30, 0.66);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 40px 120px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(18px);
+    border-radius: 28px;
 }
 
 /* Sections */
@@ -159,7 +190,7 @@ section h2 {
     text-align: center;
     margin-bottom: 3rem;
     font-size: 3rem;
-    color: #2c3e50;
+    color: #f5f7ff;
     font-weight: 700;
     font-family: 'Playfair Display', serif;
 }
@@ -176,9 +207,9 @@ section h2::after {
 
 
 #about {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(7, 11, 24, 0.74);
     margin: 2rem;
-    border-radius: 20px;
+    border-radius: 28px;
     padding: 3rem;
 }
 
@@ -188,12 +219,16 @@ section h2::after {
     margin: 0 auto;
     font-size: 1.2rem;
     line-height: 1.8;
+    color: #dce6ff;
 }
 
 #skills {
-    background: linear-gradient(135deg, #f093fb, #f5576c);
-    color: white;
+    background: rgba(7, 11, 24, 0.72);
+    color: #e8f1ff;
     padding: 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    backdrop-filter: blur(16px);
 }
 
 .skills-grid {
@@ -240,8 +275,11 @@ section h2::after {
 
 /* Portfolio */
 #portfolio {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(7, 11, 24, 0.72);
     padding: 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    backdrop-filter: blur(16px);
 }
 
 .portfolio-grid {
@@ -253,11 +291,12 @@ section h2::after {
 }
 
 .project {
-    background: white;
-    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
+    box-shadow: 0 28px 70px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .project:hover {
@@ -293,19 +332,34 @@ section h2::after {
 .project h3 {
     padding: 1rem;
     font-size: 1.2rem;
+    color: #f4f7ff;
 }
 
 .project p {
     padding: 0 1rem 1rem;
-    color: #666;
+    color: #d8dff8;
+}
+
+.project .video-fallback {
+    padding: 0 1rem 1rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #a8b8ff;
+}
+
+.project .video-fallback a {
+    color: #b9ceff;
 }
 
 /* Contact */
 #contact {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
+    background: rgba(7, 11, 24, 0.72);
+    color: #e8f1ff;
     text-align: center;
     padding: 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    backdrop-filter: blur(16px);
 }
 
 #contact h2 {
