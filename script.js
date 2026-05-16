@@ -17,6 +17,105 @@ const headlinePhrases = [
 let headlineIndex = 0;
 let isTyping = false;
 
+const canvas = document.getElementById('background-canvas');
+let ctx, cw, ch, dpr, particles = [], mouse = { x: 0, y: 0 }, scrollRatio = 0;
+
+function resizeBackgroundCanvas() {
+    if (!canvas) return;
+    cw = window.innerWidth;
+    ch = window.innerHeight;
+    dpr = window.devicePixelRatio || 1;
+    canvas.width = cw * dpr;
+    canvas.height = ch * dpr;
+    canvas.style.width = `${cw}px`;
+    canvas.style.height = `${ch}px`;
+    ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+function createParticle() {
+    const size = 3 + Math.random() * 16;
+    return {
+        x: Math.random() * cw,
+        y: Math.random() * ch,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: (Math.random() - 0.5) * 0.4,
+        size,
+        alpha: 0.08 + Math.random() * 0.18,
+        speed: 0.05 + Math.random() * 0.2,
+        shift: Math.random() * Math.PI * 2
+    };
+}
+
+function initBackgroundAnimation() {
+    if (!canvas) return;
+    resizeBackgroundCanvas();
+    particles = Array.from({ length: 90 }, () => createParticle());
+    window.requestAnimationFrame(animateBackground);
+}
+
+function updateMousePosition(event) {
+    mouse.x = event.clientX;
+    mouse.y = event.clientY;
+}
+
+function updateScrollRatio() {
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    scrollRatio = scrollHeight > 0 ? window.scrollY / scrollHeight : 0;
+}
+
+function drawBackground() {
+    const gradient = ctx.createLinearGradient(0, 0, cw, ch);
+    gradient.addColorStop(0, 'rgba(38, 52, 113, 0.55)');
+    gradient.addColorStop(0.6, 'rgba(8, 15, 34, 0.95)');
+    gradient.addColorStop(1, 'rgba(5, 9, 18, 1)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, cw, ch);
+}
+
+function animateBackground() {
+    if (!ctx) return;
+    ctx.clearRect(0, 0, cw, ch);
+    drawBackground();
+
+    const centerX = cw * 0.5;
+    const centerY = ch * 0.5;
+    const targetX = mouse.x || centerX;
+    const targetY = mouse.y || centerY;
+
+    particles.forEach(particle => {
+        const dx = (targetX - particle.x) * 0.0006;
+        const dy = (targetY - particle.y) * 0.0006;
+        particle.vx += dx;
+        particle.vy += dy;
+        particle.x += particle.vx + Math.sin(particle.shift + scrollRatio * Math.PI * 2) * 0.35;
+        particle.y += particle.vy + Math.cos(particle.shift + scrollRatio * Math.PI * 2) * 0.32;
+        particle.vx *= 0.96;
+        particle.vy *= 0.96;
+
+        if (particle.x < -40) particle.x = cw + 40;
+        if (particle.x > cw + 40) particle.x = -40;
+        if (particle.y < -40) particle.y = ch + 40;
+        if (particle.y > ch + 40) particle.y = -40;
+
+        const radius = particle.size + Math.sin(particle.shift + scrollRatio * Math.PI * 4) * 2;
+        ctx.beginPath();
+        const alpha = Math.min(1, Math.max(0.1, particle.alpha + (scrollRatio - 0.5) * 0.2));
+        ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+        ctx.arc(particle.x, particle.y, radius, 0, Math.PI * 2);
+        ctx.fill();
+    });
+    window.requestAnimationFrame(animateBackground);
+}
+
+window.addEventListener('resize', () => {
+    resizeBackgroundCanvas();
+    particles = Array.from({ length: 90 }, () => createParticle());
+});
+window.addEventListener('mousemove', updateMousePosition);
+window.addEventListener('scroll', updateScrollRatio);
+window.addEventListener('load', initBackgroundAnimation);
+
 function smoothScrollTo(target) {
     const headerOffset = 80;
     const elementPosition = target.offsetTop;
